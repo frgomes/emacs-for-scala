@@ -47,39 +47,57 @@
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 ;; Start ensime with Super-e
 (global-set-key (kbd "C-c C-c c") 'ensime)
+(global-set-key (kbd "C-c C-r r") 'ensime-refactor-rename)
+(global-set-key (kbd "C-c C-o i") 'ensime-refactor-organize-imports)
+(global-set-key (kbd "C-c C-i l") 'ensime-refactor-inline-local)
+(global-set-key (kbd "C-c C-t i") 'ensime-inspect-by-path)
+(global-set-key (kbd "s-R")       'ensime-inf-eval-buffer)
+(global-set-key (kbd "s-r")       'ensime-inf-eval-region)
 
-;; Don't show the magit instructions every time
-(setq magit-last-seen-setup-instructions "1.4.0")
+;; 'ensime-mode-menu
 
-(require 'multiple-cursors)
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;; 'ensime-inspector-mode
+;; 'ensime-inspector-browse-doc
 
+;; 'ensime-inspect-package-at-point
+;; 'ensime-inspect-type-at-point-other-frame
+;; 'ensime-inspect-bytecode
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cua-mode t nil (cua-base))
- '(custom-safe-themes
-   (quote
-    ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
- '(menu-bar-mode nil)
- '(show-paren-mode t)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822" :family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 113 :width normal)) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C" :family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 113 :width normal)))))
+;; 'ensime-inf-mode
+;; 'ensime-inf-eval-buffer
+;; 'ensime-inf-eval-region
+;; 'ensime-inf-eval-definition
+;; 'ensime-inf-import-package-at-point
 
+;; 'ensime-search-mode
+;; 'ensime-search
 
-(set-face-attribute 'default nil :height 160)
+;; 'ensime-show-doc-for-symbol-at-point
+;; 'ensime-show-uses-of-symbol-at-point
+
+;; 'ensime-type-at-point
+;; 'ensime-typecheck-current-buffer
+;; 'ensime-typecheck-all
+;; 'ensime-print-type-at-point
+
+;; 'ensime-backward-note
+;; 'enaime-forward-note
+;; 'ensime-goto-test
+;; 'ensime-goto-impl
+;; 
+;; 'ensime-refactor-diff-organize-imports
+;; 'ensime-refactor-diff-extract-method
+;; 'ensime-refactor-diff-extract-method
+;; 'ensime-refactor-diff-extract-local
+;; 'ensime-refactor-diff-inline-local
+;; 'ensime-refactor-diff-rename
+;; 'ensime-refactor-diff-apply-hunks
+
+;; 'ensime-search
+;; 'ensime-search-mode
+;; 'ensime-search-next-match
+;; 'ensime-search-prev-match
+
 (setq ensime-sem-high-faces
         '(
            (implicitConversion nil)
@@ -100,33 +118,34 @@
            (deprecated . (:strike-through "#a9b7c6"))
            (implicitParams nil)
          )
-        ;; ensime-completion-style 'company
-        ;; ensime-sem-high-enabled-p nil ;; disable semantic highlighting
-        ensime-tooltip-hints t ;; disable type-inspecting tooltips
-        ensime-tooltip-type-hints t ;; disable typeinspecting tooltips
+        ensime-startup-notification nil
+        ensime-startup-snapshot-notification nil
   )
 
-;; Highlight current line - mostly useful for demos, etc
-;;(set-face-background hl-line-face "gold")
+
+;; Don't show the magit instructions every time
+(setq magit-last-seen-setup-instructions "1.4.0")
+
+(require 'multiple-cursors)
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (require 'find-file-in-repository)
 
 (global-linum-mode 1)
 (global-set-key [f7] 'kill-whole-line)
-(global-set-key (kbd "M-s M-m") 'magit-status)
-(global-set-key (kbd "M-s M-/") 'comment-or-uncomment-region)
+(global-set-key (kbd "M-s M-m")   'magit-status)
+(global-set-key (kbd "M-s M-/")   'comment-or-uncomment-region)
 (global-set-key (kbd "C-x C-M-f") 'find-file-in-repository)
-(global-set-key (kbd "C-c C-r r") 'ensime-refactor-rename)
-(global-set-key (kbd "C-c C-o i") 'ensime-refactor-organize-imports)
-(global-set-key (kbd "C-c C-i l") 'ensime-refactor-inline-local)
-(global-set-key (kbd "C-c C-t i") 'ensime-inspect-by-path)
+
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;;Uncomment the below to hide the menu
 ;;(menu-bar-mode -1)
 
-;; Uncomment below if you want to disable compile on save
-;; (setq ensime-sbt-compile-on-save nil)
 
 ;; Some general-purpose key bindings
 (global-set-key [kp-subtract] 'undo) ; [Undo]
@@ -202,12 +221,6 @@
 
 (define-key global-map (kbd "<backtab>") 'scala-indent:indent-with-reluctant-strategy)
 
-;; Solarized theme
-;; (require 'color-theme)
-;; (require 'color-theme-solarized)
-;;(load-theme 'solarized t)
-;; Use M-x customize-variable frame-background-mode to change
-;;(color-theme-solarized)
 
 ;; Un-comment below lines for Monokai theme
 (require 'monokai-theme)
@@ -258,13 +271,10 @@
 (defun save-all () (interactive) (save-some-buffers t))
 (global-set-key (kbd "S-s") 'save-all)
 
-(global-set-key (kbd "s-R") 'ensime-inf-eval-buffer)
-(global-set-key (kbd "s-r") 'ensime-inf-eval-region)
-
 (require 'neotree)
 (global-set-key (kbd "s-d") 'neotree-toggle)
 ;;uncomment to have a neotree window open initially
-;;(neotree)
+(neotree)
 
 (require 'whitespace)
 (setq whitespace-line-column 120)
@@ -307,17 +317,25 @@ by using nxml's indentation rules."
 
 (add-hook 'markdown-mode-hook (lambda () (electric-indent-local-mode -1)))
 
+
 ;; Control and mouse-wheel-up to increase font size in buffer, down to decrease    
-(global-set-key [C-wheel-up] '(lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C-+")    '(lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C--")    '(lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key [C-wheel-up]   '(lambda () (interactive) (text-scale-increase 1)))
 (global-set-key [C-wheel-down] '(lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key [C-mouse-4]    '(lambda () (interactive) (text-scale-increase 1)))
+(global-set-key [C-mouse-5]    '(lambda () (interactive) (text-scale-decrease 1)))
 
 ;; Super wheel-up to increase font size in all buffers
 (defun change-font-height (delta)
   (set-face-attribute 'default 
                       (selected-frame)
                       :height (+ (face-attribute 'default :height) delta)))
-(global-set-key [M-wheel-up] '(lambda () (interactive) (change-font-height +4)))
+
+(global-set-key [M-wheel-up]   '(lambda () (interactive) (change-font-height +4)))
 (global-set-key [M-wheel-down] '(lambda () (interactive) (change-font-height -4)))
+(global-set-key [M-mouse-4]    '(lambda () (interactive) (change-font-height +4)))
+(global-set-key [M-mouse-5]    '(lambda () (interactive) (change-font-height -4)))
 
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
@@ -341,6 +359,9 @@ by using nxml's indentation rules."
 (global-set-key (kbd "s-b") 'ido-display-buffer)
 
 (require 'helm)
-(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-x")     'helm-M-x)
 (global-set-key (kbd "C-x C-m") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
