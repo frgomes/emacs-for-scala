@@ -20,7 +20,7 @@
 ;;  (electric-pair-mode 1)
 
 ;; List the package we want
-(setq package-list '(ensime magit multiple-cursors find-file-in-repository ace-jump-mode yasnippet window-numbering expand-region neotree monokai-theme rainbow-delimiters helm markdown-mode markdown-preview-eww slime yafolding ido-grid-mode dumb-jump ag))
+(setq package-list '(ensime lua-mode magit multiple-cursors find-file-in-repository ace-jump-mode yasnippet window-numbering expand-region neotree monokai-theme rainbow-delimiters helm markdown-mode markdown-preview-eww slime yafolding ido-grid-mode dumb-jump ag))
 
 (autoload 'findr "findr" "Find file name." t)
 (define-key global-map [(meta control S)] 'findr)
@@ -251,13 +251,13 @@
 
 (global-set-key (kbd "s-f") 'find-file-in-repository)
 
-;; Put temporary and backup files elsewhere
-(setq auto-save-file-name-transforms
-          `((".*" ,(concat user-emacs-directory "auto-save/") t))) 
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
-(setq create-lockfiles nil)
+;;;;TODO: Put temporary and backup files elsewhere
+;;(setq auto-save-file-name-transforms
+;;          `((".*" ,(concat user-emacs-directory "auto-save/") t))) 
+;;(setq backup-directory-alist
+;;      `(("." . ,(expand-file-name
+;;                 (concat user-emacs-directory "backups")))))
+;;(setq create-lockfiles nil)
 
 (require 'yasnippet)
 (yas-global-mode 1)
