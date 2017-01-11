@@ -20,7 +20,9 @@
 ;;  (electric-pair-mode 1)
 
 ;; List the package we want
-(setq package-list '(ensime lua-mode magit multiple-cursors find-file-in-repository ace-jump-mode yasnippet window-numbering expand-region neotree monokai-theme rainbow-delimiters helm markdown-mode markdown-preview-eww slime yafolding ido-grid-mode dumb-jump ag))
+(setq package-list '(ensime lua-mode dart-mode yaml-mode 
+                     tide tss typescript-mode web-mode flycheck company
+                     magit multiple-cursors find-file-in-repository ace-jump-mode yasnippet window-numbering expand-region neotree monokai-theme rainbow-delimiters helm markdown-mode markdown-preview-eww slime yafolding ido-grid-mode dumb-jump ag))
 
 (autoload 'findr "findr" "Find file name." t)
 (define-key global-map [(meta control S)] 'findr)
@@ -42,61 +44,64 @@
 	(unless (package-installed-p package)
 		(package-install package)))
 
+;;------------------------------------------------------------------------------------------------------------------------------------
+
 (require 'ensime)
 ;; Start ensime mode whenever we open scala mode, e.g. open a .scala file
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-;; Start ensime with Super-e
-(global-set-key (kbd "C-c C-c c") 'ensime)
-(global-set-key (kbd "C-c C-r r") 'ensime-refactor-rename)
-(global-set-key (kbd "C-c C-o i") 'ensime-refactor-organize-imports)
-(global-set-key (kbd "C-c C-i l") 'ensime-refactor-inline-local)
-(global-set-key (kbd "C-c C-t i") 'ensime-inspect-by-path)
-(global-set-key (kbd "s-R")       'ensime-inf-eval-buffer)
-(global-set-key (kbd "s-r")       'ensime-inf-eval-region)
 
-;; 'ensime-mode-menu
+(add-hook 'ensime-scala-mode-hook #'setup-ensime-mode)
 
-;; 'ensime-inspector-mode
-;; 'ensime-inspector-browse-doc
-
-;; 'ensime-inspect-package-at-point
-;; 'ensime-inspect-type-at-point-other-frame
-;; 'ensime-inspect-bytecode
-
-;; 'ensime-inf-mode
-;; 'ensime-inf-eval-buffer
-;; 'ensime-inf-eval-region
-;; 'ensime-inf-eval-definition
-;; 'ensime-inf-import-package-at-point
-
-;; 'ensime-search-mode
-;; 'ensime-search
-
-;; 'ensime-show-doc-for-symbol-at-point
-;; 'ensime-show-uses-of-symbol-at-point
-
-;; 'ensime-type-at-point
-;; 'ensime-typecheck-current-buffer
-;; 'ensime-typecheck-all
-;; 'ensime-print-type-at-point
-
-;; 'ensime-backward-note
-;; 'enaime-forward-note
-;; 'ensime-goto-test
-;; 'ensime-goto-impl
-;; 
-;; 'ensime-refactor-diff-organize-imports
-;; 'ensime-refactor-diff-extract-method
-;; 'ensime-refactor-diff-extract-method
-;; 'ensime-refactor-diff-extract-local
-;; 'ensime-refactor-diff-inline-local
-;; 'ensime-refactor-diff-rename
-;; 'ensime-refactor-diff-apply-hunks
-
-;; 'ensime-search
-;; 'ensime-search-mode
-;; 'ensime-search-next-match
-;; 'ensime-search-prev-match
+(defun setup-ensime-mode ()
+  (interactive)
+  (ensime-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (company-mode +1)
+  ;; Start ensime with Super-e
+  (global-set-key (kbd "C-c C-c c") 'ensime)
+  (global-set-key (kbd "C-c C-r r") 'ensime-refactor-rename)
+  (global-set-key (kbd "C-c C-o i") 'ensime-refactor-organize-imports)
+  (global-set-key (kbd "C-c C-i l") 'ensime-refactor-inline-local)
+  (global-set-key (kbd "C-c C-t i") 'ensime-inspect-by-path)
+  (global-set-key (kbd "s-R")       'ensime-inf-eval-buffer)
+  (global-set-key (kbd "s-r")       'ensime-inf-eval-region)
+  ;; 'ensime-mode-menu
+  ;; 'ensime-inspector-mode
+  ;; 'ensime-inspector-browse-doc
+  ;; 'ensime-inspect-package-at-point
+  ;; 'ensime-inspect-type-at-point-other-frame
+  ;; 'ensime-inspect-bytecode
+  ;; 'ensime-inf-mode
+  ;; 'ensime-inf-eval-buffer
+  ;; 'ensime-inf-eval-region
+  ;; 'ensime-inf-eval-definition
+  ;; 'ensime-inf-import-package-at-point
+  ;; 'ensime-search-mode
+  ;; 'ensime-search
+  ;; 'ensime-show-doc-for-symbol-at-point
+  ;; 'ensime-show-uses-of-symbol-at-point
+  ;; 'ensime-type-at-point
+  ;; 'ensime-typecheck-current-buffer
+  ;; 'ensime-typecheck-all
+  ;; 'ensime-print-type-at-point
+  ;; 'ensime-backward-note
+  ;; 'enaime-forward-note
+  ;; 'ensime-goto-test
+  ;; 'ensime-goto-impl
+  ;; 'ensime-refactor-diff-organize-imports
+  ;; 'ensime-refactor-diff-extract-method
+  ;; 'ensime-refactor-diff-extract-method
+  ;; 'ensime-refactor-diff-extract-local
+  ;; 'ensime-refactor-diff-inline-local
+  ;; 'ensime-refactor-diff-rename
+  ;; 'ensime-refactor-diff-apply-hunks
+  ;; 'ensime-search
+  ;; 'ensime-search-mode
+  ;; 'ensime-search-next-match
+  ;; 'ensime-search-prev-match
+  )
 
 (setq ensime-sem-high-faces
         '(
@@ -121,6 +126,32 @@
         ensime-startup-notification nil
         ensime-startup-snapshot-notification nil
   )
+
+;;------------------------------------------------------------------------------------------------------------------------------------
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'js2-mode-hook #'setup-tide-mode)
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "jsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+;;------------------------------------------------------------------------------------------------------------------------------------
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
 
 
 ;; Don't show the magit instructions every time
